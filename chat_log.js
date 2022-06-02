@@ -2,13 +2,10 @@ const tmi = require("tmi.js");
 const mongoose = require("mongoose");
 const ChatLog = require("./models/ChatMessage");
 
-mongoose.connect(
-  "mongodb://localhost/TwitchChat",
-  () => {
-    console.log("\nConnected to Database.\n");
-  },
-  (e) => console.error(e)
-);
+mongoose.connect("mongodb://localhost/TwitchChat", { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("\nConnected to database.\n"));
 
 const client = new tmi.Client({
   connection: {
@@ -45,6 +42,6 @@ client.on("message", (channel, context, message, self) => {
     message,
     context["user-id"],
     context["mod"],
-    context["subscriber"],
+    context["subscriber"]
   );
 });
