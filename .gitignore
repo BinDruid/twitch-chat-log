@@ -1,4 +1,5 @@
 /Logs
 /node_modules
 /Other
+/Backups
 .env
