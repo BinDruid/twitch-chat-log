@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ChatMessageSchema = new mongoose.Schema({
   chatDate: {
@@ -18,4 +18,4 @@ const ChatMessageSchema = new mongoose.Schema({
   subscriber: Boolean,
 });
 
-module.exports = mongoose.model("ChatMessage", ChatMessageSchema);
+export default mongoose.model("ChatMessage", ChatMessageSchema);

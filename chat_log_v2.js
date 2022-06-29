@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import tmi from "tmi.js";
 import mongoose from "mongoose";
-import ChatLog from "./models/ChatMessage.js";
-// import saveMessage from "./helper/saveMessage.js";
+import saveMessage from "./helper/saveMessage.js";
 
 mongoose.connect("mongodb://localhost/TwitchChat", { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -24,23 +23,8 @@ client.on("connected", (addr, port) => {
   console.log("\n=== Monitoring messages in chat ===\n");
 });
 
-const saveToDB = async (user, msg, Id, mod, sub) => {
-  try {
-    const newChat = await ChatLog.create({
-      userName: user,
-      message: msg,
-      userID: Id,
-      moderator: mod,
-      subscriber: sub,
-    });
-    console.log(newChat);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 client.on("message", (channel, context, message, self) => {
-  saveToDB(
+  saveMessage(
     context["username"],
     message,
     context["user-id"],

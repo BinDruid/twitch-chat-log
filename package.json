@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Save chat messages into MongoDB",
   "main": "chat_db.js",
+  "type": "module",
   "scripts": {
-    "start": "node chat_db.js"
+    "start": "node emote_log.js"
   },
   "author": "Elder_Druid",
   "license": "ISC",
   "dependencies": {
+    "got": "^12.1.0",
     "mongoose": "^6.3.2",
     "tmi.js": "^1.8.5"
   },
