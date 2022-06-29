@@ -28,6 +28,7 @@ ChatSchema.pre("save", async function (next) {
   const { message } = this;
   const words = message.split(" ");
   for (let i = 0; i < words.length; i++)
+    //Iteration is over index in case of saving index instead of word itself
     if (mentionCheck(words[i])) this.mentions.push(words[i]);
     else if (emojiCheck(words[i])) this.emojis.push(words[i]);
     else if (await EmoteDB.exists({ code: words[i] }))

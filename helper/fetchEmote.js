@@ -8,5 +8,4 @@ export default async (emoteCategory, endPoint) => {
   };
   const response = await got(endPoint, options).json();
   await saveEmote(response, emoteCategory);
-  console.log(`Saving emotes in ${emoteCategory} done.`);
 };

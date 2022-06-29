@@ -8,7 +8,7 @@ import saveMessage from "./helper/saveMessage.js";
 mongoose.connect("mongodb://localhost/TwitchChat", { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("\nConnected to database.\n"));
+db.once("open", () => console.log("Connected to database.\n"));
 
 await fetchEmote(
   "Channel",
