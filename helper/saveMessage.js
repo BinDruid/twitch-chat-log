@@ -1,8 +1,8 @@
-import ChatLog from "../models/ChatEmote.js";
+import ChatDB from "../models/Chat.js";
 
 export default async (user, msg, Id, mod, sub) => {
   try {
-    const newChat = await ChatLog.create({
+    const newChat = await ChatDB.create({
       userName: user,
       message: msg,
       userID: Id,

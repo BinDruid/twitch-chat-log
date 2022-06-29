@@ -2,13 +2,22 @@ import dotenv from "dotenv";
 dotenv.config();
 import tmi from "tmi.js";
 import mongoose from "mongoose";
-import ChatLog from "./models/ChatMessage.js";
-// import saveMessage from "./helper/saveMessage.js";
+import fetchEmote from "./helper/fetchEmote.js";
+import saveMessage from "./helper/saveMessage.js";
 
 mongoose.connect("mongodb://localhost/TwitchChat", { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("\nConnected to database.\n"));
+
+await fetchEmote(
+  "Channel",
+  `https://emotes.adamcy.pl/v1/channel/${process.env.CHAT_CHANNEL}/emotes/twitch.7tv.bttv.ffz`
+);
+await fetchEmote(
+  "Globall",
+  "https://emotes.adamcy.pl/v1/global/emotes/twitch.7tv.bttv.ffz"
+);
 
 const client = new tmi.Client({
   connection: {
@@ -24,23 +33,8 @@ client.on("connected", (addr, port) => {
   console.log("\n=== Monitoring messages in chat ===\n");
 });
 
-const saveToDB = async (user, msg, Id, mod, sub) => {
-  try {
-    const newChat = await ChatLog.create({
-      userName: user,
-      message: msg,
-      userID: Id,
-      moderator: mod,
-      subscriber: sub,
-    });
-    console.log(newChat);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 client.on("message", (channel, context, message, self) => {
-  saveToDB(
+  saveMessage(
     context["username"],
     message,
     context["user-id"],

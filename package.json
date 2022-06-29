@@ -1,11 +1,11 @@
 {
   "name": "chat_logger",
   "version": "1.0.0",
-  "description": "Save chat messages into MongoDB",
-  "main": "chat_db.js",
+  "description": "Save chat messages with emotes into MongoDB",
+  "main": "chat_log.js",
   "type": "module",
   "scripts": {
-    "start": "node emote_log.js"
+    "start": "node chat_log.js"
   },
   "author": "Elder_Druid",
   "license": "ISC",

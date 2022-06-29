@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
-import EmoteLog from "./Emote.js";
+import EmoteDB from "./Emote.js";
+import mentionCheck from "../helper/mentionCheck.js";
 import emojiCheck from "../helper/emojiCheck.js";
 
-const ChatEmoteSchema = new mongoose.Schema({
+const ChatSchema = new mongoose.Schema({
   chatDate: {
     type: String,
     default: () => new Date().toLocaleDateString(),
@@ -15,20 +16,23 @@ const ChatEmoteSchema = new mongoose.Schema({
   },
   userName: String,
   message: String,
-  emoji: [Number],
-  emote: [Number],
+  emojis: [String],
+  emotes: [String],
+  mentions: [String],
   userID: Number,
   moderator: Boolean,
   subscriber: Boolean,
 });
 
-ChatEmoteSchema.pre("save", async function (next) {
+ChatSchema.pre("save", async function (next) {
   const { message } = this;
   const words = message.split(" ");
   for (let i = 0; i < words.length; i++)
-    if (emojiCheck(words[i])) this.emoji.push(i);
-    else if (await EmoteLog.exists({ code: words[i] })) this.emote.push(i);
+    if (mentionCheck(words[i])) this.mentions.push(words[i]);
+    else if (emojiCheck(words[i])) this.emojis.push(words[i]);
+    else if (await EmoteDB.exists({ code: words[i] }))
+      this.emotes.push(words[i]);
   next();
 });
 
-export default mongoose.model("ChatEmote", ChatEmoteSchema);
+export default mongoose.model("Chat", ChatSchema);
