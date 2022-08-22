@@ -1,0 +1,1 @@
+GET https://emotes.adamcy.pl/v1/global/emotes/twitch.7tv.bttv.ffz
